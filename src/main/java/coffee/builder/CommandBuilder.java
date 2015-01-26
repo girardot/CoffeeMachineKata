@@ -1,6 +1,7 @@
 package coffee.builder;
 
 
+import coffee.model.Command;
 import coffee.model.Order;
 
 public class CommandBuilder {
@@ -13,32 +14,34 @@ public class CommandBuilder {
 
     public static String NOT_ENOUGH_MONEY_ERROR_MESSAGE = "M: Not enough money";
 
-    public static String transform(Order order) {
-        StringBuilder command = new StringBuilder();
+    public static Command transform(Order order) {
+        Command command;
 
-        if(!hasPayedEnough(order)) {
-            command.append(NOT_ENOUGH_MONEY_ERROR_MESSAGE);
-        }
-        else {
-            command.append(order.getDrink());
+        if (!hasPayedEnough(order)) {
+            command = new Command(NOT_ENOUGH_MONEY_ERROR_MESSAGE, true);
+        } else {
+            StringBuilder commandMessageBuilder = new StringBuilder();
+            commandMessageBuilder.append(order.getDrink());
 
-            if(order.getDrink().isHotDrink() && order.isExtraHot()) {
-                command.append(EXTRACT_HOT_CODE);
+            if (order.getDrink().isHotDrink() && order.isExtraHot()) {
+                commandMessageBuilder.append(EXTRACT_HOT_CODE);
             }
 
-            command.append(SEPARATOR);
-
-            if (order.getDrink().isHotDrink() &&  hasOrderSugar(order)) {
-                command.append(order.getSugar());
-            }
-
-            command.append(SEPARATOR);
+            commandMessageBuilder.append(SEPARATOR);
 
             if (order.getDrink().isHotDrink() && hasOrderSugar(order)) {
-                command.append(STICK_CODE);
+                commandMessageBuilder.append(order.getSugar());
             }
+
+            commandMessageBuilder.append(SEPARATOR);
+
+            if (order.getDrink().isHotDrink() && hasOrderSugar(order)) {
+                commandMessageBuilder.append(STICK_CODE);
+            }
+            command = new Command(commandMessageBuilder.toString(), false);
         }
-        return command.toString();
+
+        return command;
     }
 
     private static boolean hasPayedEnough(Order order) {
