@@ -2,11 +2,7 @@ package coffee.report;
 
 import coffee.model.Drink;
 
-import java.math.BigDecimal;
 import java.util.EnumMap;
-
-import static java.math.BigDecimal.valueOf;
-import static java.math.BigDecimal.ZERO;
 
 public class Reporter {
 
@@ -21,12 +17,11 @@ public class Reporter {
     }
 
     public Double allOrdersAmount() {
-//        return drinksOrdered
-//                .entrySet()
-//                .parallelStream()
-//                .map(e -> e.getKey().getPrice().multiply(valueOf(e.getValue())))
-//                .reduce(ZERO, BigDecimal::add);
-        return 0.0;
+        return drinksOrdered
+                .entrySet()
+                .parallelStream()
+                .map(e -> e.getKey().getPrice() * e.getValue())
+                .reduce(0.0, Double::sum);
     }
 
 }

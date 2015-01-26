@@ -1,8 +1,8 @@
 package coffee.report;
 
-import coffee.model.Drink;
 import org.junit.Test;
 
+import static coffee.model.Drink.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -13,12 +13,12 @@ public class ReporterTest {
         // Gviven
         Reporter reporter = new Reporter();
 
-        reporter.addDrinkOrder(Drink.CHOCOLATE);
-        reporter.addDrinkOrder(Drink.COFFEE);
-        reporter.addDrinkOrder(Drink.ORANGE_JUICE);
-        reporter.addDrinkOrder(Drink.TEA);
-        reporter.addDrinkOrder(Drink.CHOCOLATE);
-        reporter.addDrinkOrder(Drink.COFFEE);
+        reporter.addDrinkOrder(CHOCOLATE); // 0.5
+        reporter.addDrinkOrder(COFFEE); //  0.6
+        reporter.addDrinkOrder(ORANGE_JUICE); // 0.6
+        reporter.addDrinkOrder(TEA); // 0.4
+        reporter.addDrinkOrder(CHOCOLATE);//0.5
+        reporter.addDrinkOrder(COFFEE); // 0.6
 
         // When
         Double sumResult = reporter.allOrdersAmount();
