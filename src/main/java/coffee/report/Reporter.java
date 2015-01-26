@@ -3,6 +3,7 @@ package coffee.report;
 import coffee.model.Drink;
 
 import java.util.EnumMap;
+import java.util.Map;
 
 public class Reporter {
 
@@ -22,6 +23,20 @@ public class Reporter {
                 .parallelStream()
                 .map(e -> e.getKey().getPrice() * e.getValue())
                 .reduce(0.0, Double::sum);
+    }
+
+    public String getReport() {
+        StringBuilder reportBuilder = new StringBuilder();
+        for (Map.Entry<Drink, Double> drinkDoubleEntry : drinksOrdered.entrySet()) {
+            reportBuilder.append(drinkDoubleEntry.getKey())
+                    .append(" : ")
+                    .append(drinkDoubleEntry.getValue())
+                    .append("\n");
+        }
+
+        reportBuilder.append("SUM OF MONEY :").append(allOrdersAmount());
+
+        return reportBuilder.toString();
     }
 
 }
